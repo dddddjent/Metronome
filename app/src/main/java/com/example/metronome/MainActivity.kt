@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.lang.Error
 import java.lang.NumberFormatException
@@ -36,7 +37,8 @@ class MainActivity : AppCompatActivity() {
             val bpm = try {
                 text.toLong()
             } catch (e: NumberFormatException) {
-                Log.e(Tag, "not an integer!")
+                Toast.makeText(this, "Not an Integer!", Toast.LENGTH_SHORT).show()
+                Log.e(Tag, "Not an Integer!")
                 return@setOnClickListener
             }
             soundManager.interval = bpmToIntervalMS(bpm)
@@ -44,6 +46,7 @@ class MainActivity : AppCompatActivity() {
                 soundManager.stop()
                 soundManager.run()
             }
+            Toast.makeText(this, "bpm: $bpm", Toast.LENGTH_SHORT).show()
             Log.i(Tag, "bpm: $bpm")
         }
     }
