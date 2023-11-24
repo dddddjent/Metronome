@@ -13,6 +13,7 @@ class SoundManager(val context: MainActivity) {
     private val soundID = HashMap<String, Int>()
     private val maxStreams = 5
     var interval = 1000L
+    var bpm = 60L
     var isRunning = false
     private val executionService = Executors.newScheduledThreadPool(3)
     private var futureTask: ScheduledFuture<*>

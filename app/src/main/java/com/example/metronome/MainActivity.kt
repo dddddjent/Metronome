@@ -19,6 +19,32 @@ class MainActivity : AppCompatActivity() {
 
         soundManager = SoundManager(this)
 
+        initButtons()
+    }
+
+    private fun bpmToIntervalMS(bpm: Long): Long {
+        return 60000 / bpm
+    }
+
+    private fun changeBPM(value: Int, isIncrease: Boolean) {
+        if (isIncrease)
+            soundManager.bpm = soundManager.bpm + value
+        else
+            soundManager.bpm = soundManager.bpm - value
+        val bpm = soundManager.bpm
+        val text = findViewById<TextView>(R.id.bpm_text)
+        text.setText(bpm.toString())
+
+        soundManager.interval = bpmToIntervalMS(bpm)
+        if (soundManager.isRunning == true) {
+            soundManager.stop()
+            soundManager.run()
+        }
+        Toast.makeText(this, "bpm: $bpm", Toast.LENGTH_SHORT).show()
+        Log.i(Tag, "bpm: $bpm")
+    }
+
+    fun initButtons() {
         val playButton = findViewById<Button>(R.id.play_button)
         playButton.setOnClickListener {
             soundManager.run()
@@ -41,6 +67,7 @@ class MainActivity : AppCompatActivity() {
                 Log.e(Tag, "Not an Integer!")
                 return@setOnClickListener
             }
+            soundManager.bpm = bpm
             soundManager.interval = bpmToIntervalMS(bpm)
             if (soundManager.isRunning == true) {
                 soundManager.stop()
@@ -49,9 +76,22 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "bpm: $bpm", Toast.LENGTH_SHORT).show()
             Log.i(Tag, "bpm: $bpm")
         }
-    }
 
-    private fun bpmToIntervalMS(bpm: Long): Long {
-        return 60000 / bpm
+        val decOneButton = findViewById<Button>(R.id.dec_1_button)
+        decOneButton.setOnClickListener {
+            changeBPM(1, false)
+        }
+        val incOneButton = findViewById<Button>(R.id.inc_1_button)
+        incOneButton.setOnClickListener {
+            changeBPM(1, true)
+        }
+        val decFiveButton = findViewById<Button>(R.id.dec_5_button)
+        decFiveButton.setOnClickListener {
+            changeBPM(5, false)
+        }
+        val incFiveButton = findViewById<Button>(R.id.inc_5_button)
+        incFiveButton.setOnClickListener {
+            changeBPM(5, true)
+        }
     }
 }
