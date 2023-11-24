@@ -4,11 +4,19 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        create("release") {
+            storeFile = file("/home/ljl/Documents/android_key/metronome.jks")
+            storePassword = "zxcm12"
+            keyAlias = "metronome"
+            keyPassword = "zxcm12"
+        }
+    }
     namespace = "com.example.metronome"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.metronome"
+        applicationId = "com.ddddjent.metronome"
         minSdk = 29
         targetSdk = 34
         versionCode = 1
@@ -27,6 +35,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
